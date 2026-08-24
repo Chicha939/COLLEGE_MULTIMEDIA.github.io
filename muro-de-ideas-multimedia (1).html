@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mural de Ideias — Multimídia ICCOLLEGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14161b;
+    --bg-2: #1b1e25;
+    --truss: #3a3f4a;
+    --paper: #f6efe0;
+    --paper-shadow: #d8cfb8;
+    --ink: #23211d;
+    --ink-soft: #6b6558;
+    --amber: #f4a340;
+    --violet: #c66bff;
+    --teal: #45d9c9;
+    --rose: #ff6f8f;
+    --lime: #c9e14d;
+    --white: #f5f5f2;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 20% -10%, rgba(244,163,64,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 85% 0%, rgba(198,107,255,0.10), transparent 60%),
+      var(--bg);
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ---------- Truss header ---------- */
+  .truss{
+    position: relative;
+    height: 54px;
+    background:
+      repeating-linear-gradient(90deg, var(--truss) 0 2px, transparent 2px 26px),
+      repeating-linear-gradient(0deg, var(--truss) 0 2px, transparent 2px 22px);
+    background-color: var(--bg-2);
+    border-bottom: 3px solid #0c0d10;
+    display:flex;
+    align-items:center;
+    gap: 34px;
+    padding: 0 40px;
+    overflow: hidden;
+  }
+  .light{
+    width: 11px; height: 11px; border-radius: 50%;
+    flex-shrink:0;
+    box-shadow: 0 0 14px 4px currentColor;
+    opacity:.9;
+  }
+  .light:nth-child(1){color:var(--amber);}
+  .light:nth-child(2){color:var(--violet);}
+  .light:nth-child(3){color:var(--teal);}
+  .light:nth-child(4){color:var(--rose);}
+  .light:nth-child(5){color:var(--lime);}
+  .light:nth-child(6){color:var(--amber);}
+  .light:nth-child(7){color:var(--violet);}
+  .light:nth-child(8){color:var(--teal);}
+  .light:nth-child(9){color:var(--rose);}
+  .light:nth-child(10){color:var(--lime);}
+
+  header.hero{
+    padding: 40px 40px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 0 0 10px;
+  }
+  h1{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: .01em;
+    line-height: 1.02;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+  h1 span{ color: var(--amber); }
+  .subtitle{
+    color:#b9b7ae;
+    font-size:15.5px;
+    max-width: 640px;
+    line-height:1.55;
+    margin: 0 0 22px;
+  }
+
+  .toolbar{
+    display:flex; flex-wrap:wrap; gap:10px;
+    align-items:center;
+    max-width:1200px;
+    margin: 0 auto 8px;
+    padding: 0 40px;
+  }
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid #383c46;
+    background: transparent;
+    color: #cfcdc4;
+    cursor:pointer;
+    transition: all .15s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{ border-color:#565b68; }
+  .chip.active{ background: var(--white); color: var(--bg); border-color: var(--white); }
+  .spacer{ flex:1; }
+
+  .add-btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight:600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: var(--amber);
+    color: #23180a;
+    cursor:pointer;
+    box-shadow: 0 4px 0 #b97c22;
+    transition: transform .08s ease;
+  }
+  .add-btn:hover{ transform: translateY(-1px); }
+  .add-btn:active{ transform: translateY(2px); box-shadow: 0 2px 0 #b97c22;}
+
+  /* ---------- Board ---------- */
+  .board-wrap{ max-width:1200px; margin: 18px auto 80px; padding: 0 40px; }
+  .board{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 34px 28px;
+    padding-top: 10px;
+  }
+
+  .card{
+    position:relative;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 14px 24px -10px rgba(0,0,0,.55), 0 2px 0 var(--paper-shadow);
+    transition: transform .18s ease, box-shadow .18s ease;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+  }
+  .card:hover{
+    transform: translateY(-4px) rotate(0deg) !important;
+    box-shadow: 0 20px 30px -12px rgba(0,0,0,.6), 0 2px 0 var(--paper-shadow);
+  }
+  .pin{
+    position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+    width:16px; height:16px; border-radius:50%;
+    box-shadow: 0 3px 5px rgba(0,0,0,.5), inset 0 -3px 4px rgba(0,0,0,.25), inset 0 2px 2px rgba(255,255,255,.4);
+  }
+  .tag{
+    display:inline-flex; align-items:center; gap:6px;
+    align-self:flex-start;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing:.06em; text-transform:uppercase;
+    padding: 4px 9px 4px 7px;
+    border-radius: 999px;
+    color:#fff;
+  }
+  .tag::before{ content:''; width:6px; height:6px; border-radius:50%; background: currentColor; filter: brightness(1.6); }
+
+  .card h3{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size: 19px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    margin: 2px 0 0;
+  }
+  .card p.desc{
+    font-size: 13.6px;
+    line-height:1.5;
+    color: #4a463c;
+    margin: 0;
+  }
+
+  .status-row{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top: 2px;
+  }
+  .status{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color: var(--ink-soft);
+  }
+  .status.nueva{ color:#a3670f; }
+  .status.proceso{ color:#1f7a5c; }
+  .status.hecha{ color:#555; text-decoration: line-through; }
+
+  .toggle-steps{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background:none; border:none; cursor:pointer;
+    color: #8a6a2c;
+    padding:0; text-align:left;
+    text-decoration: underline dotted;
+  }
+  .steps{
+    display:none;
+    margin: 2px 0 0;
+    padding: 10px 0 0;
+    border-top: 1px dashed #cfc4a4;
+    font-size: 13px;
+    line-height:1.6;
+    color:#3a362d;
+  }
+  .steps.open{ display:block; }
+  .steps ol{ margin:0; padding-left:18px; }
+  .steps li{ margin-bottom:5px; }
+
+  .card-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top: 6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+  }
+  .del-btn{
+    background:none; border:none; cursor:pointer;
+    color:#a3453f; font-family:'JetBrains Mono', monospace; font-size: 11px;
+    opacity: .55;
+  }
+  .del-btn:hover{ opacity:1; }
+
+  .empty-state{
+    grid-column: 1 / -1;
+    text-align:center;
+    padding: 60px 20px;
+    color:#8b8a82;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background: rgba(10,11,14,.72);
+    display:none; align-items:center; justify-content:center;
+    padding: 24px; z-index: 50;
+    backdrop-filter: blur(2px);
+  }
+  .overlay.open{ display:flex; }
+  .modal{
+    background: var(--paper);
+    color: var(--ink);
+    width: 100%; max-width: 520px;
+    border-radius: 6px;
+    padding: 28px 26px 24px;
+    max-height: 88vh;
+    overflow-y:auto;
+    box-shadow: 0 30px 60px rgba(0,0,0,.5);
+  }
+  .modal h2{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    font-size: 24px;
+    margin: 0 0 4px;
+  }
+  .modal .hint{ font-size:12.5px; color:var(--ink-soft); margin:0 0 18px; }
+  label{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:#6b6558;
+    margin: 14px 0 6px;
+  }
+  input[type=text], textarea, select{
+    width:100%;
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 14px;
+    padding: 10px 11px;
+    border-radius: 5px;
+    border: 1px solid #cfc4a4;
+    background: #fffdf7;
+    color: var(--ink);
+    resize: vertical;
+  }
+  input[type=text]:focus, textarea:focus, select:focus{
+    outline: 2px solid var(--amber);
+    outline-offset: 1px;
+  }
+  textarea{ min-height: 78px; line-height:1.5; }
+  .cat-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+  .cat-opt{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid #ccc0a0;
+    background:#fffdf7;
+    cursor:pointer;
+    color:#4a463c;
+  }
+  .cat-opt.selected{ color:#fff; border-color: transparent; }
+
+  .modal-actions{
+    display:flex; justify-content:flex-end; gap:10px;
+    margin-top: 22px;
+  }
+  .btn-ghost, .btn-primary{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px; font-weight:600;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor:pointer;
+    border: 1px solid #cfc4a4;
+    background: transparent;
+    color:#4a463c;
+  }
+  .btn-primary{
+    background: var(--amber);
+    border-color: transparent;
+    color:#23180a;
+  }
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px);
+    background:#22261f; color:#e6ffe0; border:1px solid #3d5a34;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px;
+    padding:10px 16px; border-radius:6px; opacity:0; pointer-events:none;
+    transition: all .25s ease;
+    z-index: 60;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .add-btn, .toast{ transition:none; }
+  }
+
+  ::selection{ background: var(--amber); color:#23180a; }
+</style>
+</head>
+<body>
+
+  <div class="truss">
+    <div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div>
+    <div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Equipe de Multimídia · ICCOLLEGE — Igreja da Cidade</p>
+    <h1>Mural de <span>Ideias</span></h1>
+    <p class="subtitle">Aqui fixamos cada ideia maluca antes que a gente esqueça: o que é, para qual momento serve e como executar na prática. Toda a equipe pode continuar adicionando.</p>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <button class="chip active" data-filter="all">Todas</button>
+    <div class="spacer"></div>
+    <button class="add-btn" id="openModalBtn">+ Fixar nova ideia</button>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board" id="board">
+      <div class="empty-state" id="loadingState">Carregando o mural…</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <h2>Fixar uma nova ideia</h2>
+      <p class="hint">Conte tudo: o que aparece na tela/palco, e os passos reais para conseguir fazer.</p>
+
+      <label>Título</label>
+      <input type="text" id="f-title" placeholder="Ex: Câmera 360 no batismo">
+
+      <label>Categoria</label>
+      <div class="cat-grid" id="f-cats"></div>
+
+      <label>Descrição — o que é a ideia?</label>
+      <textarea id="f-desc" placeholder="Explique a ideia como se estivesse contando para alguém que não participou da conversa..."></textarea>
+
+      <label>Como executar (um passo por linha)</label>
+      <textarea id="f-steps" placeholder="Instalar o OBS Studio&#10;Conseguir a câmera X&#10;Configurar input no ProPresenter..."></textarea>
+
+      <label>Status</label>
+      <select id="f-status">
+        <option value="nueva">Nova</option>
+        <option value="proceso">Em andamento</option>
+        <option value="hecha">Feita</option>
+      </select>
+
+      <div class="modal-actions">
+        <button class="btn-ghost" id="cancelBtn">Cancelar</button>
+        <button class="btn-primary" id="saveBtn">Fixar no mural</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+const CATEGORIES = [
+  { id: 'produccion', label: 'Produção', color: '#f4a340' },
+  { id: 'iluminacion', label: 'Iluminação', color: '#c66bff' },
+  { id: 'escenografia', label: 'Cenografia', color: '#ff6f8f' },
+];
+
+const STORAGE_KEY = 'iccollege-idea-wall';
+let ideas = [];
+let currentFilter = 'all';
+let selectedCat = CATEGORIES[0].id;
+
+const board = document.getElementById('board');
+const toolbar = document.getElementById('toolbar');
+const overlay = document.getElementById('overlay');
+const toast = document.getElementById('toast');
+
+function catInfo(id){ return CATEGORIES.find(c => c.id === id) || CATEGORIES[0]; }
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+function seedIdea(){
+  return [{
+    id: 'seed-fisheye',
+    title: 'Câmera olho de peixe nos momentos de adoração rápida',
+    category: 'produccion',
+    status: 'nueva',
+    desc: 'Durante músicas rápidas de adoração (tipo "Deus de Paz"), mostrar na tela principal uma imagem distorcida tipo olho de peixe da congregação pulando, rindo e adorando — captada ao vivo e projetada pelo ProPresenter na hora, para reforçar a energia da música.',
+    steps: [
+      'Escolher o caminho: celular com app fisheye (ex. iFish) + app NDI HX Camera (portátil, alguém caminha entre a galera) — ou notebook com OBS Studio + plugin obs-shaderfilter (fisheye.shader) para uma câmera fixa.',
+      'Se for com notebook: instalar o OBS, adicionar a câmera como fonte, aplicar o filtro shader fisheye e ajustar o valor "power" até ficar chamativo.',
+      'Ativar saída NDI do OBS (ou do app do celular) na mesma rede da equipe do ProPresenter (idealmente cabo ethernet ou wifi rápido).',
+      'No ProPresenter: Settings > Inputs > adicionar a fonte NDI como novo Video Input.',
+      'Definir o disparo: quem opera a câmera/celular durante a música rápida e quem coloca na tela no ProPresenter, com cue ensaiado antes do culto.',
+      'Testar no ensaio geral com a banda tocando para ajustar timing, enquadramento e nível de distorção antes do domingo real.'
+    ],
+    createdAt: Date.now()
+  }];
+}
+
+async function loadIdeas(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, true);
+    if(res && res.value){
+      ideas = JSON.parse(res.value);
+    } else {
+      ideas = seedIdea();
+      await persist();
+    }
+  } catch(e){
+    ideas = seedIdea();
+    try{ await persist(); } catch(e2){ console.error('Não foi possível salvar a ideia inicial', e2); }
+  }
+  renderBoard();
+}
+
+async function persist(){
+  try{
+    const result = await window.storage.set(STORAGE_KEY, JSON.stringify(ideas), true);
+    if(!result){ showToast('Não foi possível salvar no mural compartilhado. Tente de novo.'); }
+  } catch(e){
+    console.error('Storage error', e);
+    showToast('Erro ao salvar — verifique sua conexão.');
+  }
+}
+
+function rotationFor(id){
+  let hash = 0;
+  for(const ch of String(id)) hash = (hash * 31 + ch.charCodeAt(0)) % 1000;
+  return ((hash % 7) - 3) + 'deg';
+}
+
+function renderBoard(){
+  board.innerHTML = '';
+  const list = currentFilter === 'all' ? ideas : ideas.filter(i => i.category === currentFilter);
+
+  if(list.length === 0){
+    board.innerHTML = '<div class="empty-state">Nada fixado aqui ainda. Seja o primeiro a adicionar uma ideia.</div>';
+    return;
+  }
+
+  list.slice().sort((a,b)=> b.createdAt - a.createdAt).forEach(idea => {
+    const cat = catInfo(idea.category);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.transform = 'rotate(' + rotationFor(idea.id) + ')';
+
+    const statusLabel = { nueva: 'Nova', proceso: 'Em andamento', hecha: 'Feita' }[idea.status] || 'Nova';
+
+    card.innerHTML = `
+      <div class="pin" style="background:${cat.color}"></div>
+      <span class="tag" style="background:${cat.color}; color:#231a08;">${cat.label}</span>
+      <h3>${escapeHtml(idea.title)}</h3>
+      <p class="desc">${escapeHtml(idea.desc)}</p>
+      <div class="status-row">
+        <span class="status ${idea.status}">● ${statusLabel}</span>
+        <button class="toggle-steps" data-id="${idea.id}">Ver como fazer ▾</button>
+      </div>
+      <div class="steps" id="steps-${idea.id}">
+        <ol>${idea.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+      </div>
+      <div class="card-foot">
+        <span>${timeAgo(idea.createdAt)}</span>
+        <button class="del-btn" data-id="${idea.id}">remover do mural</button>
+      </div>
+    `;
+    board.appendChild(card);
+  });
+
+  board.querySelectorAll('.toggle-steps').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById('steps-' + btn.dataset.id);
+      el.classList.toggle('open');
+      btn.textContent = el.classList.contains('open') ? 'Ocultar passos ▴' : 'Ver como fazer ▾';
+    });
+  });
+
+  board.querySelectorAll('.del-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if(!confirm('Remover esta ideia do mural?')) return;
+      ideas = ideas.filter(i => i.id !== btn.dataset.id);
+      await persist();
+      renderBoard();
+    });
+  });
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function timeAgo(ts){
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff/60000);
+  if(mins < 1) return 'agora mesmo';
+  if(mins < 60) return mins + ' min';
+  const hrs = Math.floor(mins/60);
+  if(hrs < 24) return hrs + ' h';
+  const days = Math.floor(hrs/24);
+  return days + ' d';
+}
+
+/* ---- Toolbar filters ---- */
+function buildToolbar(){
+  const addBtn = document.getElementById('openModalBtn');
+  CATEGORIES.forEach(cat => {
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.dataset.filter = cat.id;
+    chip.textContent = cat.label;
+    chip.addEventListener('click', () => setFilter(cat.id, chip));
+    toolbar.insertBefore(chip, toolbar.querySelector('.spacer'));
+  });
+  document.querySelector('.chip[data-filter="all"]').addEventListener('click', (e)=> setFilter('all', e.target));
+}
+
+function setFilter(id, el){
+  currentFilter = id;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderBoard();
+}
+
+/* ---- Modal ---- */
+function buildCatPicker(){
+  const wrap = document.getElementById('f-cats');
+  CATEGORIES.forEach(cat => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'cat-opt' + (cat.id === selectedCat ? ' selected' : '');
+    opt.textContent = cat.label;
+    opt.style.background = cat.id === selectedCat ? cat.color : '#fffdf7';
+    opt.dataset.id = cat.id;
+    opt.addEventListener('click', () => {
+      selectedCat = cat.id;
+      document.querySelectorAll('.cat-opt').forEach(o => {
+        o.classList.remove('selected');
+        o.style.background = '#fffdf7';
+      });
+      opt.classList.add('selected');
+      opt.style.background = cat.color;
+    });
+    wrap.appendChild(opt);
+  });
+}
+
+document.getElementById('openModalBtn').addEventListener('click', () => {
+  overlay.classList.add('open');
+});
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+
+function closeModal(){
+  overlay.classList.remove('open');
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-steps').value = '';
+  document.getElementById('f-status').value = 'nueva';
+}
+
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const title = document.getElementById('f-title').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+  const stepsRaw = document.getElementById('f-steps').value.trim();
+  const status = document.getElementById('f-status').value;
+
+  if(!title || !desc){
+    showToast('Preencha ao menos título e descrição.');
+    return;
+  }
+
+  const steps = stepsRaw ? stepsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+  ideas.push({
+    id: 'idea-' + Date.now(),
+    title, desc, steps, status,
+    category: selectedCat,
+    createdAt: Date.now()
+  });
+
+  await persist();
+  closeModal();
+  renderBoard();
+  showToast('Ideia fixada no mural 📌');
+});
+
+buildToolbar();
+buildCatPicker();
+loadIdeas();
+</script>
+</body>
+</html>
